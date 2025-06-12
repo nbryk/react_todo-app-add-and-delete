@@ -7,6 +7,7 @@ import { Todo } from './types/Todo';
 import { FilterStatus } from './types/FilterStatus';
 import { USER_ID } from './constants';
 import classNames from 'classnames';
+import { ErrorNotification } from './components/ErrorNotification';
 
 export const App: React.FC = () => {
   const [todosFromServer, setTodosFromServer] = useState<Todo[]>([]);
@@ -331,27 +332,10 @@ export const App: React.FC = () => {
         )}
       </div>
 
-      {/* DON'T use conditional rendering to hide the notification */}
-      {/* Add the 'hidden' class to hide the message smoothly */}
-      <div
-        data-cy="ErrorNotification"
-        className={classNames(
-          'notification',
-          'is-danger',
-          'is-light',
-          'has-text-weight-normal',
-          { hidden: !todosErrorMessage },
-        )}
-      >
-        <button
-          data-cy="HideErrorButton"
-          type="button"
-          className="delete"
-          onClick={() => setTodosErrorMessage('')}
-        />
-        {/* show only one message at a time */}
-        {todosErrorMessage}
-      </div>
+      <ErrorNotification
+        message={todosErrorMessage}
+        onClose={() => setTodosErrorMessage('')}
+      />
     </div>
   );
 };
